@@ -38,8 +38,21 @@ class Player(pygame.sprite.Sprite):
             self.rect.move_ip(-5, 0)
         if pressed_keys[K_RIGHT]:
             self.rect.move_ip(5, 0)
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.right > SCREEN_WIDTH:
+            self.rect.right = SCREEN_WIDTH
+        if self.rect.top <= 0:
+            self.rect.top = 0
+        if self.rect.bottom > SCREEN_HEIGHT:
+            self.rect.bottom = SCREEN_HEIGHT
 
 player = Player()
+
+enemies = pygame.sprite.Group()
+all_sprites = pygame.sprite.Group()
+all_sprites.add(enemies)
+
 
 while running:
     for event in pygame.event.get():
@@ -65,7 +78,8 @@ while running:
     #     ((SCREEN_HEIGHT - surf.get_height()) / 2)
     # )
 
-    screen.blit(player.surf, player.rect)
+    for entity in all_sprites:
+        screen.blit(entity.surf, entity.rect)
 
     # flip the display
     pygame.display.flip()
